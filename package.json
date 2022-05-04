@@ -1,0 +1,25 @@
+{
+  "name": "radiopato-backend",
+  "version": "1.0.0",
+  "description": "Web application to manage the community of neighbors",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Radio-Pato/RadioPato-Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Radio-Pato/RadioPato-Backend/issues"
+  },
+  "homepage": "https://github.com/Radio-Pato/RadioPato-Backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mongodb": "^4.5.0",
+    "mongoose": "^6.3.2"
+  }
+}
