@@ -46,4 +46,6 @@ This project will hold all the packages for the backend.
 
 - `middelwares` contain files with configurations necessary between controllers and database such as autentications
 
+- `models` contain files with schemas and data models
+
 - `routes` containe all files of configuration of routes
