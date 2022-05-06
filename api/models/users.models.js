@@ -1,14 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcrypt");
+const usersSchema = new Schema({
+  name: String,
+  surnames: String,
+  email: String,
+  address: String,
+  building: String,
+  password: String,
+});
 
-const usersSchema = new Schema(
-	{
-		name:String,
-		surnames:String,
-		email:String,
-		address:String,
-		building:String,
-		password:String
-	}
-)
-module.exports=mongoose.model("users",usersSchema)
+usersSchema.pre("save", function (next) {
+  var user = this;
+
+  if (!user.isModified("password")) return next();
+
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) return next(err);
+
+    bcrypt.hash(user.password, salt, function (err, hash) {
+      if (err) return next(err);
+
+      user.password = hash;
+      next();
+    });
+  });
+});
+module.exports = mongoose.model("users", usersSchema);
