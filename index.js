@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const app = require("./app");
 const port = 3001;
-const urlDatabase =
-  "mongodb+srv://Admin:yVVonhsigClRuH3P@radiopatocluster.qzhuw.mongodb.net/RadioPato?retryWrites=true&w=majority";
+require('dotenv').config();
+const urlDatabase = process.env.MONGO_CONECTION;
 
 
 mongoose.connect(urlDatabase).then(() => {
