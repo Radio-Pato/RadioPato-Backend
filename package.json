@@ -4,7 +4,7 @@
   "description": "Web application to manage the community of neighbors",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+   "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "mongodb": "^4.5.0",
-    "mongoose": "^6.3.2"
+    "mongoose": "^6.3.2",
+    "nodemon": "^2.0.16"
   }
 }
