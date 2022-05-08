@@ -16,7 +16,7 @@ async function create(req, res) {
   }
 }
 
-function getByEmail(req, res) {
+/* function getByEmail(req, res) {
   try {
     const email = req.params.email;
     User.find({ email: email }, (err, found) => {
@@ -39,25 +39,21 @@ function getByEmail(req, res) {
       message: error.message,
     });
   }
-}
+} */
 
 function getValidLogin(req, res) {
   try {
     const email = req.body.email;
     const password = req.body.password;
-	console.log(email, password)
     User.find({ email: email }, (err, found) => {
-
-
-
-      if (found =="") {
+		if (found =="") {
         res.status(400).json({
           status: 400,
           message: "Usuario o contraseña no válido",
         });
       }
 
-	  if (bcrypt.compareSync(password, found[0].password)) {
+	  if (!bcrypt.compareSync(password, found[0].password)) {
 		res.status(400).json({
 		  status: 400,
 		  message: "Usuario o contraseña no válido",
@@ -79,6 +75,6 @@ function getValidLogin(req, res) {
 
 module.exports = {
   create: create,
-  getByEmail: getByEmail,
+/*   getByEmail: getByEmail, */
   getValidLogin: getValidLogin,
 };

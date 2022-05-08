@@ -1,9 +1,6 @@
 const express = require("express");
-const {getByEmail,getValidLogin, create}= require("../controller/users.controller");
+const {/* getByEmail, */getValidLogin, create}= require("../controller/users.controller");
 const router = express.Router();
-
-//Solo test
-router.get("/:email",getByEmail)
 
 //Acceso del usuario
 router.get("/acceso",getValidLogin)
@@ -11,5 +8,8 @@ router.get("/acceso",getValidLogin)
 //Registro del usuario
 router.post("/registro", create);
 
+//Solo test
+/* router.get("/:email",getByEmail)
+ */
 
 module.exports = router;
