@@ -42,9 +42,10 @@ async function create(req, res) {
 } */
 
 function getValidLogin(req, res) {
+console.log(req.params)
   try {
-    const email = req.body.email;
-    const password = req.body.password;
+    const email = req.params.email;
+    const password = req.params.password;
     User.find({ email: email }, (err, found) => {
 		if (found =="") {
         res.status(400).json({
