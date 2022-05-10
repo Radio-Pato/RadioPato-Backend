@@ -60,21 +60,21 @@ if(req.body.password === undefined){
     const email = req.body.email;
     const password = req.body.password;
     User.find({ email: email }, (err, found) => {
-		if (found =="") {
-        res.status(400).json({
+		if (found.length===0) {
+        return res.status(400).json({
           status: 400,
           message: "Usuario o contraseña no válido",
         });
       }
 
 	  if (!bcrypt.compareSync(password, found[0].password)) {
-		res.status(400).json({
+		return res.status(400).json({
 		  status: 400,
 		  message: "Usuario o contraseña no válido",
 		});
 	  }
 
-      res.status(200).json({
+      return res.status(200).json({
         status: 200,
         message: "Credenciales válidas",
       });
