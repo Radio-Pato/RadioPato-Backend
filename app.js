@@ -2,17 +2,17 @@
 //Import for express server
 const expres = require("express");
 const app = expres();
+const cors = require('cors')
+const { json } = require("express");
+
 //Middlewares Server
-const { json, cors } = require("./api/middlewares/server.middlewares");
-const usersController = require('./api/controller/users.controller')
-app.use((req, res, next) => {
-  cors();
-  json();
-  next();
-});
+const usersRoutes = require("./api/routes/users.routes")
+app.use(cors())
+app.use(json())
+
 
 //Entrypoint of routes
-app.use("/users",usersController)
+app.use("/users",usersRoutes)
 //app.use("/sections",sections_controller)
 
 

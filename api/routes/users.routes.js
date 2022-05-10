@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const {create,validLogin} = require('../controller/users.controller')
 
 //POST
-//Get email and password for login
-//router.post("/access/")
+//post email and password for login
+router.post("/acceso",validLogin)
 //Register new user
-//router.post("/register/")
+router.post("/registro",create)
 //get comments
 //router.get("/comments/")
 
@@ -17,3 +18,5 @@ const router = express.Router();
 //DEL
 //Delete user
 //router.delete("/:email")
+
+module.exports = router
