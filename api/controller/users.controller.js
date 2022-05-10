@@ -1,94 +1,66 @@
-const User = require("../models/users.models");
+const Users = require("../models/users.model");
 const bcrypt = require("bcrypt");
 async function create(req, res) {
   try {
-    await User.create(req.body);
-
-    res.status(200).json({
-      status: 200,
-      data: req.body,
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: 400,
-      message: error.message,
-    });
-  }
-}
-
-/* function getByEmail(req, res) {
-  try {
-    const email = req.params.email;
-    User.find({ email: email }, (err, found) => {
-      if (found == "") {
-        res.status(400).json({
-          status: 400,
-          message: "Usuario no encontrado",
-        });
-      } else {
-        res.status(200).json(found);
-      }
-
-      if (err) {
-        res.status(400).json(err);
-      }
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: 400,
-      message: error.message,
-    });
-  }
-} */
-
-function getValidLogin(req, res) {
-
-if(req.body.email=== undefined){
-	res.status(400).json({
-		status: 400,
-		message: "Usuario o contraseña no válido",
-	  });
-}
-
-if(req.body.password === undefined){
-	res.status(400).json({
-		status: 400,
-		message: "Usuario o contraseña no válido",
-	  });
-}
-  try {
-    const email = req.body.email;
-    const password = req.body.password;
-    User.find({ email: email }, (err, found) => {
-		if (found.length===0) {
-        return res.status(400).json({
-          status: 400,
-          message: "Usuario o contraseña no válido",
-        });
-      }
-
-	  if (!bcrypt.compareSync(password, found[0].password)) {
-		return res.status(400).json({
-		  status: 400,
-		  message: "Usuario o contraseña no válido",
-		});
-	  }
-
+    await Users.create(req.body).then(() => {
       return res.status(200).json({
         status: 200,
-        message: "Credenciales válidas",
+        data: req.body,
+        message: "Se ha registrado correctamente",
       });
     });
   } catch (error) {
-    res.status(400).json({
-      status: 400,
+    return res.status(500).json({
+      status: 500,
       message: error.message,
     });
   }
 }
 
+async function validLogin(req, res) {
+  if (req.body.email.length === 0) {
+    return res.status(400).json({
+      status: 400,
+      message: "Debe introducir un correo",
+    });
+  }
+
+  if (req.body.password.length === 0) {
+    return res.status(400).json({
+      status: 400,
+      message: "Debe introducir una contraseña",
+    });
+  }
+  try {
+    const messageErrorPasswordUser = {
+      status: 400,
+      message: "Correo o contraseña incorrecto",
+    };
+    const email = req.body.email;
+    const password = req.body.password;
+    Users.find({ email: email }, (error, found) => {
+      if (found.length === 0) {
+        return res.status(400).json(messageErrorPasswordUser);
+      }
+
+      if (!bcrypt.compareSync(password, found[0].password)) {
+        return res.status(400).json(messageErrorPasswordUser);
+      }
+
+      return res.status(200).json({
+        status: 200,
+        message: "Credenciales válidas, bienvenida/o",
+      });
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      message: "Se ha producido un error. Intentelo de nuevo",
+      error: error.message,
+    });
+  }
+}
 module.exports = {
   create: create,
-/*   getByEmail: getByEmail, */
-  getValidLogin: getValidLogin,
+  validLogin: validLogin,
 };

@@ -1,18 +1,33 @@
-const mongoose = require("mongoose");
+//Entrypoint of app. Configuration of connections
+//Configuration of server
 const app = require("./app");
-const port = 3001;
-require('dotenv').config();
-const urlDatabase = process.env.MONGO_CONECTION;
+//Variables
+require("dotenv").config();
+const env = process.env;
 
-
-mongoose.connect(urlDatabase).then(() => {
-    console.log("conexión establecida a base datos");
+//Database configuration
+const mongoose = require("mongoose");
+const database =
+  env.MONGO_PROTOCOL +
+  env.MONGO_USER +
+  env.MONGO_PASS +
+  env.MONGO_CLUSTER +
+  env.MONGO_DB +
+  env.MONGO_OPTIONS;
+console.log = database;
+mongoose
+  .connect(database)
+  .then(() => {
+    console.info("Conexión a base datos establecida");
   })
-  .catch((err) => {
-    console.log(err);
-  });
+  .catch((error) =>
+    console.error(
+      "Se ha producido un error al conectar con la base datos: ",
+      error
+    )
+  );
 
-
-app.listen(port, () => {
-  console.log("servidor conectado a puerto ", port);
-});
+//Server connection
+app.listen(env.SERVER_PORT, (err)=>{
+	if(err) console.error("Se ha producido un error en el sevidor: ",env.SERVER_PORT)
+})

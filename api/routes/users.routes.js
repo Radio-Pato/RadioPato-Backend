@@ -1,15 +1,22 @@
 const express = require("express");
-const {/* getByEmail, */getValidLogin, create}= require("../controller/users.controller");
 const router = express.Router();
+const {create,validLogin} = require('../controller/users.controller')
 
-//Acceso del usuario
-router.post("/acceso",getValidLogin)
+//POST
+//post email and password for login
+router.post("/acceso",validLogin)
+//Register new user
+router.post("/registro",create)
+//get comments
+//router.get("/comments/")
 
-//Registro del usuario
-router.post("/registro", create);
 
-//Solo test
-/* router.get("/:email",getByEmail)
- */
+//PUT
+//Edit user
+//router.put("/edit/:email")
 
-module.exports = router;
+//DEL
+//Delete user
+//router.delete("/:email")
+
+module.exports = router

@@ -1,11 +1,20 @@
-const express = require('express')
-const {json}= require('express')
+//Configurations of server an routes import
+//Import for express server
+const expres = require("express");
+const app = expres();
 const cors = require('cors')
-const app = express()
-const user_routes = require('./api/routes/users.routes')
-app.use(json())
+const { json } = require("express");
+
+//Middlewares Server
+const usersRoutes = require("./api/routes/users.routes")
 app.use(cors())
+app.use(json())
 
-app.use("/users",user_routes)
 
-module.exports = app
+//Entrypoint of routes
+app.use("/users",usersRoutes)
+//app.use("/sections",sections_controller)
+
+
+//Exports
+module.exports = app;
