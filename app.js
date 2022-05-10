@@ -1,3 +1,4 @@
+//Configurations of server an routes import
 //Import for express server
 const expres = require("express");
 const app = expres();
