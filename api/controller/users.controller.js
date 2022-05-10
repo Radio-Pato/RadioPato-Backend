@@ -42,10 +42,23 @@ async function create(req, res) {
 } */
 
 function getValidLogin(req, res) {
-console.log(req.params)
+
+if(req.body.email=== undefined){
+	res.status(400).json({
+		status: 400,
+		message: "Usuario o contraseña no válido",
+	  });
+}
+
+if(req.body.password === undefined){
+	res.status(400).json({
+		status: 400,
+		message: "Usuario o contraseña no válido",
+	  });
+}
   try {
-    const email = req.params.email;
-    const password = req.params.password;
+    const email = req.body.email;
+    const password = req.body.password;
     User.find({ email: email }, (err, found) => {
 		if (found =="") {
         res.status(400).json({

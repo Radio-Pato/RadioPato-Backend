@@ -3,7 +3,7 @@ const {/* getByEmail, */getValidLogin, create}= require("../controller/users.con
 const router = express.Router();
 
 //Acceso del usuario
-router.get("/acceso/:email/:password",getValidLogin)
+router.post("/acceso",getValidLogin)
 
 //Registro del usuario
 router.post("/registro", create);
