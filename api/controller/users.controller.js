@@ -13,7 +13,8 @@ async function create(req, res) {
   } catch (error) {
     return res.status(400).json({
       status: 400,
-      message: error.message,
+      message: "Ya se encuentra registrado, por favor inicie sesión",
+	  error: error.message
     });
   }
 }
@@ -40,6 +41,7 @@ async function validLogin(req, res) {
     const email = req.body.email;
     const password = req.body.password;
     const token = jwt.sign(email + password, process.env.API_KEY);
+
     Users.find({ email: email }, (error, found) => {
       if (found.length === 0) {
         return res.status(400).json(messageErrorPasswordUser);
