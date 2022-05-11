@@ -11,27 +11,28 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    required: [true, "Debe introducir un correo"],
-    maxlength: 120,
+    required: [true, "Debe introducir un correo electrónico"],
+    maxlength: [120, "El correo electrónico es demasiado largo"],
 	unique:true
   },
   address: {
     type: String,
     required: [true, "Debe introducir una dirección"],
-    maxlength: 240,
+    maxlength: [240,"La dirección es demasiado larga"],
   },
   building: {
     type: String,
     required: [true, "Debe introducir un edificio"],
-    maxlength: 120,
+    maxlength: [120,"El nombre del edificio es demasiado largo"],
   },
   password: {
     type: String,
-    minlength: 8,
-    maxlength: 120,
+    minlength: [8,"La contraseña debe tener entre 8 y 120 carácteres"],
+    maxlength: [120,"La contraseña debe tener entre 8 y 120 carácteres"],
     required: [true, "Debe introducir una contraseña"],
   },
 });
+
 
 userSchema.pre("save", function (next) {
   let user = this;

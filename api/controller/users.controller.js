@@ -11,10 +11,17 @@ async function create(req, res) {
       });
     });
   } catch (error) {
+    const errosplit = error.message.split(" ");
+
+    if (errosplit[0] === "E11000") {
+      return res.status(400).json({
+        status: 400,
+        error: "El correo ya existe en nuestra base de datos",
+      });
+    }
     return res.status(400).json({
       status: 400,
-      message: "Ya se encuentra registrado, por favor inicie sesión",
-	  error: error.message
+      error: error.message,
     });
   }
 }
@@ -70,16 +77,14 @@ async function validLogin(req, res) {
   }
 }
 
-async function logout(req,res){
-	return res.clearCookie("access_token")
-			.status(200)
-			.json({
-				status:200,
-				message: "Sesión cerrada correctamente"
-			})
+async function logout(req, res) {
+  return res.clearCookie("access_token").status(200).json({
+    status: 200,
+    message: "Sesión cerrada correctamente",
+  });
 }
 module.exports = {
   create: create,
   validLogin: validLogin,
-  logout:logout
+  logout: logout,
 };
