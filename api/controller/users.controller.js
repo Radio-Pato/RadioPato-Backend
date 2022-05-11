@@ -1,5 +1,6 @@
 const Users = require("../models/users.model");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 async function create(req, res) {
   try {
     await Users.create(req.body).then(() => {
@@ -10,8 +11,8 @@ async function create(req, res) {
       });
     });
   } catch (error) {
-    return res.status(500).json({
-      status: 500,
+    return res.status(400).json({
+      status: 400,
       message: error.message,
     });
   }
@@ -38,6 +39,7 @@ async function validLogin(req, res) {
     };
     const email = req.body.email;
     const password = req.body.password;
+    const token = jwt.sign(email + password, process.env.API_KEY);
     Users.find({ email: email }, (error, found) => {
       if (found.length === 0) {
         return res.status(400).json(messageErrorPasswordUser);
@@ -47,20 +49,35 @@ async function validLogin(req, res) {
         return res.status(400).json(messageErrorPasswordUser);
       }
 
-      return res.status(200).json({
-        status: 200,
-        message: "Credenciales válidas, bienvenida/o",
-      });
+      return res
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({
+          status: 200,
+          message: "Credenciales válidas, bienvenida/o",
+        });
     });
   } catch (error) {
-    res.status(500).json({
-      status: 500,
-      message: "Se ha producido un error. Intentelo de nuevo",
+    res.status(400).json({
+      status: 400,
+      message: "No ha sido posible verificar sus credenciales",
       error: error.message,
     });
   }
 }
+
+async function logout(req,res){
+	return res.clearCookie("access_token")
+			.status(200)
+			.json({
+				status:200,
+				message: "Sesión cerrada correctamente"
+			})
+}
 module.exports = {
   create: create,
   validLogin: validLogin,
+  logout:logout
 };
