@@ -53,13 +53,13 @@ async function getByName(req, res) {
           message: "Sección no encontrada",
         });
       }
-
+	  const date = new Date( Date.parse(found.creationdate))
       return res.status(200).json({
         status: 200,
         data: {
           Titulo: found.title,
           description: found.description,
-          creationdate: found.creationdate,
+          creationdate: date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
         },
       });
     });
