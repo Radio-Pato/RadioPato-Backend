@@ -27,13 +27,18 @@ async function create(req, res) {
 
 async function getAll(req, res) {
   try {
-    await Sections.find({}, (error, found) => {
+     Sections.find({}, (error, found) => {
+	console.log(found)
       if (found.length === 0) {
         return res.status(400).json({
           status: 400,
           message: "No hay secciones disponibles",
         });
       }
+        return res.status(200).json({
+          status: 400,
+          data:found
+        });
     });
   } catch (error) {
     return res.status(400).json({
