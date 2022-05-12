@@ -4,7 +4,7 @@ const authorization = (req, res, next) => {
   const token = req.cookies.access_token;
 
   if (!token) {
-    res.status(403).json({
+    return res.status(403).json({
       status: 403,
       message: "Acceso denegado",
     });

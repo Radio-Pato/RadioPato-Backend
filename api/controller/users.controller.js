@@ -11,10 +11,17 @@ async function create(req, res) {
       });
     });
   } catch (error) {
+    const errosplit = error.message.split(" ");
+
+    if (errosplit[0] === "E11000") {
+      return res.status(400).json({
+        status: 400,
+        error: "El correo ya existe en nuestra base de datos",
+      });
+    }
     return res.status(400).json({
       status: 400,
-      message: "Ya se encuentra registrado, por favor inicie sesión",
-	  error: error.message
+      error: error.message,
     });
   }
 }
@@ -42,12 +49,12 @@ async function validLogin(req, res) {
     const password = req.body.password;
     const token = jwt.sign(email + password, process.env.API_KEY);
 
-    Users.find({ email: email }, (error, found) => {
-      if (found.length === 0) {
+    Users.findOne({ email: email }, (error, found) => {
+      if (!found) {
         return res.status(400).json(messageErrorPasswordUser);
       }
 
-      if (!bcrypt.compareSync(password, found[0].password)) {
+      if (!bcrypt.compareSync(password, found.password)) {
         return res.status(400).json(messageErrorPasswordUser);
       }
 
@@ -69,17 +76,40 @@ async function validLogin(req, res) {
     });
   }
 }
+async function getByEmail(req, res) {
+  const email = req.body.email;
 
-async function logout(req,res){
-	return res.clearCookie("access_token")
-			.status(200)
-			.json({
-				status:200,
-				message: "Sesión cerrada correctamente"
-			})
+  try {
+    Users.findOne({ email: email }, (error, found) => {
+      if (!found) {
+        return res.status(400).json({
+          status: 400,
+          message: "usuario no encontrado",
+        });
+      }
+      return res.status(200).json({
+        status: 200,
+        data: found,
+      });
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: 400,
+      message: "Se ha producido un error al obtener los datos",
+      error: error,
+    });
+  }
+}
+
+async function logout(req, res) {
+  return res.clearCookie("access_token").status(200).json({
+    status: 200,
+    message: "Sesión cerrada correctamente",
+  });
 }
 module.exports = {
   create: create,
   validLogin: validLogin,
-  logout:logout
+  getByEmail: getByEmail,
+  logout: logout,
 };
