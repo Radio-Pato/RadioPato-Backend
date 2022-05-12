@@ -7,15 +7,17 @@ const { json } = require("express");
 const cookieParser = require('cookie-parser');
 
 //Middlewares Server
-const usersRoutes = require("./api/routes/users.routes")
+
 app.use(cors())
 app.use(json())
 app.use(cookieParser())
 
 
 //Entrypoint of routes
-app.use("/users",usersRoutes)
-//app.use("/sections",sections_controller)
+const users = require("./api/routes/users.routes")
+const sections = require("./api/routes/section.routes")
+app.use("/usuarios",users)
+app.use("/secciones",sections)
 
 
 //Exports
