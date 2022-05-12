@@ -1,6 +1,7 @@
 //Configurations of server an routes import
 //Import for express server
 const expres = require("express");
+const compression= require("compression")
 const app = expres();
 const cors = require('cors')
 const { json } = require("express");
@@ -10,6 +11,7 @@ const cookieParser = require('cookie-parser');
 
 app.use(cors())
 app.use(json())
+app.use(compression())
 app.use(cookieParser())
 
 
