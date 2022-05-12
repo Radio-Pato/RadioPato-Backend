@@ -7,7 +7,12 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: [true, "Debe introducir un nombre"],
-    maxlength: 60,
+    maxlength: [60, "El nombre es demasiado largo"]
+  },
+  surname:{
+	type:String,
+	maxlength: [120, "Los apellidos son demasiados largos"],
+	default: ""
   },
   email: {
     type: String,

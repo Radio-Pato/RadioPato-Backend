@@ -11,7 +11,7 @@ router.post("/acceso",validLogin)
 //Get user data
 router.post("/miperfil",authorization, getByEmail)
 //Closed Sesion
-router.get("/cierredesession",authorization,logout)
+router.get("/cierredesesion",authorization,logout)
 
 
 //Route protected
