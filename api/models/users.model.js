@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
-
+//User data schema
 const userSchema = new Schema({
   name: {
     type: String,
@@ -31,26 +31,34 @@ const userSchema = new Schema({
     maxlength: [120,"La contraseña debe tener entre 8 y 120 carácteres"],
     required: [true, "Debe introducir una contraseña"],
   },
+  creationdate:{
+	  type:String,
+	  default: new Date().toUTCString()
+  },
+  updatedate:{
+	  type:String
+  }
 });
 
-
+//Encrypt password before save data
 userSchema.pre("save", function (next) {
   let user = this;
 
+  //If user don't change password continue
   if (!user.isModified("password")) return next();
 
-
+	//Generate salt for password
     bcrypt.genSalt(10, (err, salt) => {
       if (err) return next(err);
-
+		//hasing password
       bcrypt.hash(user.password, salt, (err, hash) => {
         if (err) return next(err);
-
+		//change value of password for password encrypted
         user.password = hash;
         next();
       });
     });
   }
 );
-
+//Exports model
 module.exports = mongoose.model("Users", userSchema);
