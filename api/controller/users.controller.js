@@ -27,6 +27,12 @@ async function create(req, res) {
 }
 
 async function validLogin(req, res) {
+	if(!req.body.email || !req.body.password){
+		return res.status(400).json({
+			status: 400,
+			message: req.body,
+		  });
+	}
   if (req.body.email.length === 0) {
     return res.status(400).json({
       status: 400,
@@ -59,9 +65,9 @@ async function validLogin(req, res) {
       }
 
       return res
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
+        .cookie("access_token", token,{
+
+		})
         .status(200)
         .json({
           status: 200,
