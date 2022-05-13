@@ -18,6 +18,8 @@ app.use(cookieParser())
 //Entrypoint of routes
 const users = require("./api/routes/users.routes")
 const sections = require("./api/routes/section.routes")
+const root = require("./api/routes/root.routes")
+app.use("/",root)
 app.use("/usuarios",users)
 app.use("/secciones",sections)
 

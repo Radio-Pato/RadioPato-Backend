@@ -1,5 +1,4 @@
 const express = require("express");
-const { test } = require("../controller/test.controller");
 const router = express.Router();
 const {create,validLogin, logout, getByEmail} = require('../controller/users.controller')
 const {authorization} = require('../middlewares/authorization')
