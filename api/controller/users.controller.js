@@ -65,13 +65,11 @@ async function validLogin(req, res) {
       }
 
       return res
-        .cookie("access_token", token,{
-
-		})
         .status(200)
         .json({
           status: 200,
           message: "Credenciales válidas, bienvenida/o",
+		  token: token
         });
     });
   } catch (error) {
