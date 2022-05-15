@@ -9,7 +9,12 @@ const cookieParser = require('cookie-parser');
 
 //Middlewares Server
 
-app.use(cors())
+app.use(cors(
+	{
+		origin: 'http://localhost:3000',
+		credentials: true,
+	}
+))
 app.use(json())
 app.use(compression())
 app.use(cookieParser())

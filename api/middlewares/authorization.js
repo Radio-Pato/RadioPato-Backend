@@ -11,9 +11,12 @@ const authorization = (req, res, next) => {
   }
 
   try {
-    const data = jwt.verify(token, process.env.API_KEY);
-    req.email = data.email;
-    return next();
+jwt.verify(token, process.env.API_KEY, (error, data)=> {
+		req.local = data
+		return next();
+	});
+
+
   } catch (error) {
     return res.status(403).json({
       status: 403,
