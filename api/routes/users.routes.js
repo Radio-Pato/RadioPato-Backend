@@ -5,6 +5,7 @@ const {
   validLogin,
   logout,
   getByEmail,
+  deleted
 } = require("../controller/users.controller");
 const { authorization } = require("../middlewares/authorization");
 
@@ -13,7 +14,9 @@ router.post("/registro", create);
 //Login
 router.post("/acceso", validLogin);
 //Get user data
-router.post("/miperfil", authorization, getByEmail);
+router.post("/miperfil",authorization, getByEmail);
+//Delete user
+router.delete("/miperfil",authorization,deleted)
 //Closed Sesion
 router.get("/cierredesesion", logout);
 

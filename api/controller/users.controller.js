@@ -27,12 +27,12 @@ async function create(req, res) {
 }
 
 async function validLogin(req, res) {
-	if(!req.body.email || !req.body.password){
-		return res.status(400).json({
-			status: 400,
-			message: req.body,
-		  });
-	}
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).json({
+      status: 400,
+      message: req.body,
+    });
+  }
   if (req.body.email.length === 0) {
     return res.status(400).json({
       status: 400,
@@ -64,13 +64,12 @@ async function validLogin(req, res) {
         return res.status(400).json(messageErrorPasswordUser);
       }
 
-      return res
-        .status(200)
-        .json({
-          status: 200,
-          message: "Credenciales válidas, bienvenida/o",
-		  token: token
-        });
+      return res.status(200).json({
+        status: 200,
+        message: "Credenciales válidas, bienvenida/o",
+        token: token,
+        email: email,
+      });
     });
   } catch (error) {
     res.status(400).json({
@@ -82,7 +81,6 @@ async function validLogin(req, res) {
 }
 async function getByEmail(req, res) {
   const email = req.body.email;
-
   try {
     Users.findOne({ email: email }, (error, found) => {
       if (!found) {
@@ -105,6 +103,37 @@ async function getByEmail(req, res) {
   }
 }
 
+async function deleted(req, res) {
+  const email = req.cookies.email;
+  if (!email || email.length === 0) {
+    return res.status(400).json({
+      status: 400,
+      message: "Se ha producido un error al intentar borrar el usuario",
+    });
+  }
+
+  try {
+    Users.findOneAndDelete({ email: email }, (error, found) => {
+      if (!found) {
+        return res.status(400).json({
+          status: 400,
+          message: "Se ha producido un error al intentar borrar el usuario",
+        });
+      }
+
+      return res.status(200).json({
+        status: 200,
+        message: "Usuario eliminado correctamente",
+      });
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: 400,
+      message: "Se ha producido un error al intentar borrar el usuario",
+      error: error,
+    });
+  }
+}
 async function logout(req, res) {
   return res.clearCookie("access_token").status(200).json({
     status: 200,
@@ -116,4 +145,5 @@ module.exports = {
   validLogin: validLogin,
   getByEmail: getByEmail,
   logout: logout,
+  deleted: deleted,
 };
