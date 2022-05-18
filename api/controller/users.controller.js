@@ -140,10 +140,47 @@ async function logout(req, res) {
     message: "Sesión cerrada correctamente",
   });
 }
+
+async function update(req, res) {
+  if (req.body.length === 0) {
+    return res.status(400).json({
+      status: 400,
+      message: "Error al actualizar datos",
+    });
+  }
+  try {
+    const email = req.body.email;
+    const update = {
+      name: req.body.name,
+      surname: req.body.surname,
+      building: req.body.building,
+      address: req.body.address,
+    };
+    Users.findOneAndUpdate({ email: email }, update, (error, found) => {
+      if (!found) {
+        return res.status(400).json({
+          status: 400,
+          message: "Error al actualizar datos",
+        });
+      }
+      return res.status(200).json({
+        status: 200,
+        message: "Datos actualizados correctamente",
+      });
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: 400,
+      message: "Error al actualizar datos",
+    });
+  }
+}
+
 module.exports = {
   create: create,
   validLogin: validLogin,
   getByEmail: getByEmail,
   logout: logout,
   deleted: deleted,
+  update: update,
 };
