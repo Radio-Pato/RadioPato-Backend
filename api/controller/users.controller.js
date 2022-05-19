@@ -104,7 +104,7 @@ async function getByEmail(req, res) {
 }
 
 async function deleted(req, res) {
-  const email = req.cookies.email;
+  const email = req.body.email;
   if (!email || email.length === 0) {
     return res.status(400).json({
       status: 400,

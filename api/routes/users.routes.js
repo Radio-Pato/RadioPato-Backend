@@ -17,9 +17,9 @@ router.post("/acceso", validLogin);
 //Get user data
 router.post("/miperfil", authorization, getByEmail);
 //Update user
-router.patch("/miperfil", /*authorization,*/ update);
+router.patch("/miperfil", update);
 //Delete user
-router.delete("/miperfil", authorization, deleted);
+router.delete("/miperfil",deleted);
 //Closed Sesion
 router.get("/cierredesesion", logout);
 
