@@ -22,5 +22,5 @@ const commentModel = new Schema({
     maxlength: [120, "El nombre de la sección demasiado largo"],
   },
 });
-//Exports sections
+//Exports comments
 module.exports = mongoose.model("comments", commentModel);

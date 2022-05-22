@@ -6,9 +6,6 @@ const {getAll, create, deleted} = require('../controller/comments.controller');
 router.get("/", getAll)
 //Create a comment
 router.post("/", create)
-//PUT
-//Edit comment
-/* router.put("/section/:id") */
 
 //DELETE
 //Delete comment

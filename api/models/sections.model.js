@@ -16,12 +16,6 @@ const sectionModel = new Schema({
     type: String,
     default: new Date().toUTCString(),
   },
-/*   comments: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "comments",
-    },
-  ], */
 });
 //Exports sections
 module.exports = mongoose.model("Sections", sectionModel);

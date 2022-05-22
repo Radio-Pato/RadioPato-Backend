@@ -23,7 +23,4 @@ router.delete("/miperfil",deleted);
 //Closed Sesion
 router.get("/cierredesesion", logout);
 
-//Route protected
-//router.get("/protegida", authorization, test)
-
 module.exports = router;
