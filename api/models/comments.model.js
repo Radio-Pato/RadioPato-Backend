@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-//Section data schema
+//Comments data schema
 const commentModel = new Schema({
   owner: {
     type: String,
